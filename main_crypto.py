@@ -9,7 +9,7 @@ import requests
 
 app = Flask(__name__)
 
-exchange_name= "gemini"
+exchange_name= "binanceus"
 
 @app.route('/generate_order_book', methods=['POST'])
 def generate_order_book():
@@ -23,8 +23,7 @@ def generate_order_book():
     order_book = order_book_fetcher.generate_l1_order_book()
     result = order_book_fetcher.store_order_book(symbol, order_book)
 
-    
-    return jsonify({"message": f"Stored order book for {symbol} on {exchange_name}.", "query_key": result["order_book_key"]})
+    return jsonify({"message": f"Stored order book for {symbol} on {exchange_name}.", "query_key": result["l1_order_book_key"]})
 
 @app.route('/query_order_book', methods=['GET'])
 def query_order_book():
@@ -36,7 +35,7 @@ def query_order_book():
     if not symbol:
         return jsonify({"error": "Please provide symbol."}), 400
 
-    order_book_fetcher = CryptoOrderBook(exchange_name, symbol)
+    order_book_fetcher = CryptoExchange(exchange_name, symbol)
 
     result = order_book_fetcher.get_order_book()
     
@@ -44,14 +43,13 @@ def query_order_book():
 
 @app.route('/query_asks', methods=['GET'])
 def query_asks():
-    exchange_name = request.args.get('exchange_name')
     symbol = request.args.get('symbol')
 
     if not symbol:
         return jsonify({"error": "Please provide symbol."}), 400
 
-    order_book_fetcher = CryptoOrderBook(exchange_name, symbol)
-    result = order_book_fetcher.get_bids_or_asks('asks')
+    order_book_fetcher = CryptoExchange(exchange_name, symbol)
+    result = order_book_fetcher.get_asks_or_bids('asks')
     return jsonify(result)
 
 @app.route('/query_bids', methods=['GET'])
@@ -62,8 +60,8 @@ def query_bids():
     if  not symbol:
         return jsonify({"error": "Please provide symbol."}), 400
 
-    order_book_fetcher = CryptoOrderBook(exchange_name, symbol)
-    result = order_book_fetcher.get_bids_or_asks('bids')
+    order_book_fetcher = CryptoExchange(exchange_name, symbol)
+    result = order_book_fetcher.get_asks_or_bids('bids')
     return jsonify(result)
 
 
