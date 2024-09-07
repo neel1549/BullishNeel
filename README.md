@@ -11,9 +11,6 @@ Design a solution that queries a crypto exchange, downloads all their data, and 
 ` python test_crypto_exchange.py `
 
 
-### There is a SSL verification error that wouldn't let me hit the Binance API. Could not figure it out unless I switched my location to another country. Hope the unit testing and the rest still holds valid
-
-
 ## Tasks:
 
 - Setup Docker Container Infrastructure, with a Flask Server and a Redis DB
