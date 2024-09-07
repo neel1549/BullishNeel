@@ -36,9 +36,9 @@ class CryptoExchange:
     def store_order_book(self, symbol, order_book):
 
         order_book_gen_timestamp = order_book['timestamp']
-        order_book_key = f"Binance:{symbol}:*:l1_order_book"
-        bids_key = f"Binance:{symbol}:*:bids"
-        asks_key = f"Binance:{symbol}:*:asks"
+        order_book_key = f"Binance:{symbol}:{order_book_gen_timestamp}:l1_order_book"
+        bids_key = f"Binance:{symbol}:{order_book_gen_timestamp}:bids"
+        asks_key = f"Binance:{symbol}:{order_book_gen_timestamp}:asks"
         
 
         # Store the order book and bids and asks
