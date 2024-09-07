@@ -3,6 +3,7 @@ from unittest.mock import patch, MagicMock
 from testcontainers.redis import RedisContainer
 import redis
 import ccxt
+import json
 from crypto_exchange import CryptoExchange 
 
 class CryptoExchangeTest(unittest.TestCase):
@@ -23,7 +24,7 @@ class CryptoExchangeTest(unittest.TestCase):
         self.redis_client = redis.Redis(host=self.redis_host, port=self.redis_port, db=0)
         self.mock_exchange = patch('ccxt.binance').start()
 
-        self.order_book = CryptoExchange(exchange_name='binance')
+        self.order_book = CryptoExchange(exchange='binance',symbol="BTC/USDT")
         self.order_book.redis_client = self.redis_client
 
 
@@ -37,10 +38,12 @@ class CryptoExchangeTest(unittest.TestCase):
         }
 
         # Store mock data in Redis manually
-        key = f"binance:BTC/USDT:1234567890:order_book"
-        self.redis_client.set(key, str(mock_order_book))
+        key = f"binance:BTC/USDT:*:order_book"
+        self.redis_client.set(key, json.dumps(mock_order_book))
 
-        retrieved_order_book = self.order_book.get_order_book('BTC/USDT', 1234567890)
+        retrieved_order_book = self.order_book.get_order_book()
+
+        print(retrieved_order_book)
 
         # Validate with mock data.
         self.assertEqual(retrieved_order_book['bids'], [[40000.0, 2.5]])

@@ -21,8 +21,8 @@ class CryptoExchange:
         return redis.Redis(host=redis_host, port=int(redis_port))
 
     def get_exchange_instance(self, exchange_name):
-        if exchange_name == "gemini":
-            ex = ccxt.gemini()
+        if exchange_name == "binance":
+            ex = ccxt.binance()
             ex.proxyUrl = 'https://fast-dawn-89938.herokuapp.com/'
             return ex
         else:
@@ -51,13 +51,13 @@ class CryptoExchange:
 
 
     def get_order_book(self):
-
-        keys = self.redis_client.keys(f"{self.exchange.id}:{self.symbol}:*:order_book")
-
+        
+        keys = self.redis_client.keys(f"binance:{self.symbol}:*:order_book")
         if not keys:
             return {"error": "No data found for the given symbol and exchange. Please hit the /generate_order_book endpoint."}
 
         order_book_data = self.redis_client.get(max(keys))
+        print(order_book_data)
 
         if order_book_data:
             return json.loads(order_book_data)
