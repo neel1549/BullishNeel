@@ -1,0 +1,5 @@
+redis
+ccxt
+flask
+requests
+pip-system-certs

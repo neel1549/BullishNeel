@@ -1,0 +1,23 @@
+version: '3'
+services:
+  redis_crypto_db:
+    image: "redis"
+    container_name: redis_crypto_db
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  main_crypto:
+    build: .
+    container_name: main_crypto
+    depends_on:
+      - redis_crypto_db
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    ports:
+      - "5000:5000"
+
+volumes:
+  redis_data:
