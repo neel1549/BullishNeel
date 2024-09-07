@@ -29,7 +29,7 @@ class CryptoExchange:
 
 
     def generate_l1_order_book(self):
-        order_book = self.exchange.fetch_order_book(self.symbol, limit=1)
+        order_book = self.exchange.fetch_order_book(self.symbol)
         return order_book
 
 
