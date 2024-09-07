@@ -22,9 +22,9 @@ class CryptoExchangeTest(unittest.TestCase):
 
     def setUp(self):
         self.redis_client = redis.Redis(host=self.redis_host, port=self.redis_port, db=0)
-        self.mock_exchange = patch('ccxt.binance').start()
+        self.mock_exchange = patch('ccxt.binanceus').start()
 
-        self.order_book = CryptoExchange(exchange='binance',symbol="BTC/USDT")
+        self.order_book = CryptoExchange(exchange='binanceus',symbol="BTC/USDT")
         self.order_book.redis_client = self.redis_client
 
 
