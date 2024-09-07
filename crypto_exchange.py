@@ -36,9 +36,9 @@ class CryptoExchange:
     def store_order_book(self, symbol, order_book):
 
         order_book_gen_timestamp = order_book['timestamp']
-        order_book_key = f"Binance:{symbol}:{order_book_gen_timestamp}:l1_order_book"
-        bids_key = f"Binance:{symbol}:{order_book_gen_timestamp}:bids"
-        asks_key = f"Binance:{symbol}:{order_book_gen_timestamp}:asks"
+        order_book_key = f"Binance:{symbol}:*:l1_order_book"
+        bids_key = f"Binance:{symbol}:*:bids"
+        asks_key = f"Binance:{symbol}:*:asks"
         
 
         # Store the order book and bids and asks
@@ -67,7 +67,7 @@ class CryptoExchange:
     def get_asks_or_bids(self, order_requests='asks'):
 
         # Either asks or bids
-        keys = self.redis_client.keys(f"{self.exchange.id}:{self.symbol}:*:{order_requests}")
+        keys = self.redis_client.keys(f"Binance:{self.symbol}:*:{order_requests}")
 
         if not keys:
             return {"error": "No data found for the given symbol and exchange. Please hit the /generate_order_book endpoint."}
