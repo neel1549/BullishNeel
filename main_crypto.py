@@ -9,7 +9,7 @@ import requests
 
 app = Flask(__name__)
 
-exchange_name= "binance"
+exchange_name= "gemini"
 
 @app.route('/generate_order_book', methods=['POST'])
 def generate_order_book():

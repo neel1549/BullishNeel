@@ -21,8 +21,10 @@ class CryptoExchange:
         return redis.Redis(host=redis_host, port=int(redis_port))
 
     def get_exchange_instance(self, exchange_name):
-        if exchange_name == "binance":
-            return ccxt.binance()
+        if exchange_name == "gemini":
+            ex = ccxt.gemini()
+            ex.proxyUrl = 'https://fast-dawn-89938.herokuapp.com/'
+            return ex
         else:
             raise ValueError(f"Unsupported exchange: {exchange_name}")
 
